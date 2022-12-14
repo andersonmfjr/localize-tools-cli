@@ -1,11 +1,7 @@
 import * as fs from "node:fs";
+import { IsCorrectModel } from "../models/is-correct.model";
 
-export type FileIsCorrectResponse = {
-  hasErrors: boolean;
-  errorsMessages: string[];
-};
-
-export function fileIsCorrect(path: string): FileIsCorrectResponse {
+export function fileIsCorrect(path: string): IsCorrectModel {
   const errors = [];
 
   if (!path.endsWith(".json")) {
