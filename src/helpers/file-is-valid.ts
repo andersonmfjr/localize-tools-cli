@@ -1,7 +1,7 @@
 import * as fs from "node:fs";
-import { IsCorrectModel } from "../models/is-correct.model";
+import { IsValidModel } from "../models/is-valid.model";
 
-export function fileIsCorrect(path: string): IsCorrectModel {
+export function fileIsValid(path: string): IsValidModel {
   const errors = [];
 
   if (!path.endsWith(".json")) {
@@ -31,7 +31,7 @@ export function fileIsCorrect(path: string): IsCorrectModel {
   }
 
   return {
-    hasErrors: errors.length > 0,
+    isValid: errors.length === 0,
     errorsMessages: errors,
   };
 }
