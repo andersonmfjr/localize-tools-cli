@@ -1,20 +1,27 @@
 import * as fs from "node:fs";
+import path from "path";
+import { cwd } from "process";
 import { IsValidModel } from "../models/is-valid.model";
+import { chalkError } from "./chalk-themes";
 
 export function configIsValid(
   config: string | Record<string, any>
 ): IsValidModel {
   const errors = [];
 
+  let configPath = "";
+
   if (typeof config === "string") {
     if (!config.endsWith(".json")) {
       errors.push(`${config} is not a json`);
     }
 
-    const exists = fs.existsSync(config);
+    configPath = path.join(cwd(), config);
+
+    const exists = fs.existsSync(configPath);
 
     if (exists) {
-      const file = fs.readFileSync(config, "utf8");
+      const file = fs.readFileSync(configPath, "utf8");
 
       let keys: string[] = [];
       try {
@@ -33,6 +40,10 @@ export function configIsValid(
     const keysErrors = verifyKeys(Object.keys(config), config);
     errors.push(...keysErrors);
   }
+
+  errors.forEach((error) => {
+    console.log(chalkError("\n" + error + "\n"));
+  });
 
   return {
     isValid: errors.length === 0,
@@ -56,9 +67,15 @@ function verifyKeys(keys: string[], config: Record<string, any>): string[] {
     }
 
     if (!Array.isArray(translations)) {
-      errors.push("Translations config is not array");
-      // eslint-disable-next-line no-warning-comments
-      // TODO: Verify items
+      errors.push("Translations config is not array.");
+    } else {
+      const isAllStrings = translations.every(
+        (translation) => typeof translation === "string"
+      );
+
+      if (!isAllStrings) {
+        errors.push("Some items in the translations array are not strings.");
+      }
     }
   } else {
     errors.push(`${config} is invalid. Source or translations are missing.`);
