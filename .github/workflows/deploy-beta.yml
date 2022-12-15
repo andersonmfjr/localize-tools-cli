@@ -53,6 +53,9 @@ jobs:
       - name: Build project
         run: yarn build
 
+      - name: Setup GET user
+        uses: fregante/setup-git-user@v1
+
       - name: Change NPM Version
         uses: fregante/setup-git-user@v1
         env:

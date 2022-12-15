@@ -53,8 +53,10 @@ jobs:
       - name: Build project
         run: yarn build
 
-      - name: Change NPM Version
+      - name: Setup GET user
         uses: fregante/setup-git-user@v1
+
+      - name: Change NPM Version
         env:
           VERSION: ${{ needs.semantic_release.outputs.new_release_version }}
         run: npm version ${VERSION} --allow-same-version=true
