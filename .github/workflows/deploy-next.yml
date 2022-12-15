@@ -28,3 +28,4 @@ jobs:
         with:
           token: ${{ secrets.NPM_TOKEN }}
           tag: "next"
+          check-version: false
