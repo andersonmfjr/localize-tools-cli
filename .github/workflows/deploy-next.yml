@@ -1,0 +1,39 @@
+name: Deploy
+on:
+  push:
+    branches:
+      - next
+
+jobs:
+  get_current_version:
+    runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.get_version.outputs.version }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Get current version
+        id: get_version
+        run: echo "##[set-output name=version;]$(echo )"
+
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set Node.js 16.x
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16.x
+          registry-url: https://registry.npmjs.org/
+
+      - name: Install packages
+        run: yarn
+
+      - name: Build project
+        run: yarn build
+
+      - name: Upload to NPM
+        uses: JS-DevTools/npm-publish@v1
+        with:
+          token: ${{ secrets.NPM_TOKEN }}
+          tag: "next"
