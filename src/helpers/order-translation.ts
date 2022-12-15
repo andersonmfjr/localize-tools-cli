@@ -8,7 +8,7 @@ export function orderTranslation(source: string, translation: string) {
   try {
     const dir = cwd();
     const sourcePath = path.join(dir, source);
-    const translationPath = path.join(translation, source);
+    const translationPath = path.join(dir, translation);
 
     const sourceLocaleRawData = fs.readFileSync(sourcePath, "utf8");
     const sourceLocaleJson = JSON.parse(sourceLocaleRawData);
