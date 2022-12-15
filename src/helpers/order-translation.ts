@@ -30,6 +30,6 @@ export function orderTranslations(source: string, translation: string) {
 
     fs.writeFileSync(translation, parsedData + endOfFile);
   } catch (err) {
-    console.log(chalkError(err));
+    console.log(chalkError("\n" + err + "\n"));
   }
 }

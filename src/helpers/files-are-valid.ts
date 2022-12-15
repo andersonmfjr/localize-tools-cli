@@ -14,7 +14,9 @@ export function filesAreValid(config: {
 
   if (!config || !hasAllKeys) {
     console.log(
-      chalkError("Please add config. For more information view help section")
+      chalkError(
+        "\nPlease add config. For more information view help section.\n"
+      )
     );
     exit();
   }

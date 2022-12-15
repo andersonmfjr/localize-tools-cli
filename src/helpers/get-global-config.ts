@@ -29,13 +29,15 @@ export function getGlobalConfig(flags: Record<string, any>): {
     }
 
     console.log(
-      chalkError("Config is invalid. For more information view help section")
+      chalkError(
+        "\nConfig is invalid. For more information view help section.\n"
+      )
     );
     exit();
   } else {
     console.log(
       chalkError(
-        "Please pass flags to config. For more information view help section"
+        "\nPlease pass flags to config. For more information view help section.\n"
       )
     );
     exit();

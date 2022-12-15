@@ -6,7 +6,7 @@ export function fileIsValid(path: string): IsValidModel {
   const errors = [];
 
   if (!path.endsWith(".json")) {
-    errors.push(`${path} is not a json`);
+    errors.push(`${path} is not a json.`);
   }
 
   const exists = fs.existsSync(path);
@@ -17,7 +17,7 @@ export function fileIsValid(path: string): IsValidModel {
     try {
       keys = Object.keys(JSON.parse(file));
     } catch {
-      errors.push(`Cannot parse translations of ${path}`);
+      errors.push(`Cannot parse translations of ${path}.`);
     }
 
     const hasAllKeys = ["locale", "translations"].every((key) =>
@@ -28,11 +28,11 @@ export function fileIsValid(path: string): IsValidModel {
       errors.push(`${path} is invalid. Locale or translations are missing.`);
     }
   } else {
-    errors.push(`${path} not exists`);
+    errors.push(`${path} not exists.`);
   }
 
   errors.forEach((error) => {
-    console.log(chalkError(error));
+    console.log(chalkError("\n" + error + "\n"));
   });
 
   return {
