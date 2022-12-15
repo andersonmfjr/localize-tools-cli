@@ -1,5 +1,6 @@
 import * as fs from "node:fs";
 import { IsValidModel } from "../models/is-valid.model";
+import { chalkError } from "./chalk-themes";
 
 export function fileIsValid(path: string): IsValidModel {
   const errors = [];
@@ -29,6 +30,10 @@ export function fileIsValid(path: string): IsValidModel {
   } else {
     errors.push(`${path} not exists`);
   }
+
+  errors.forEach((error) => {
+    console.log(chalkError(error));
+  });
 
   return {
     isValid: errors.length === 0,
