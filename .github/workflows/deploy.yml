@@ -64,11 +64,14 @@ jobs:
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v4
         with:
-          commit-message: "Bump version [skip ci]"
+          title: Bump version [skip ci]
+          commit-message: Bump version [skip ci]
+          body: Bump version [skip ci]
+          branch: bump-version
 
       - name: Upload to NPM
         uses: JS-DevTools/npm-publish@v1
         with:
           token: ${{ secrets.NPM_TOKEN }}
-          tag: ${{ needs.semantic_release.outputs.new_release_version }}
+          tag: latest
           check-version: true
