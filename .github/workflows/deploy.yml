@@ -21,9 +21,10 @@ jobs:
           semantic_version: 19
           extra_plugins: |
             conventional-changelog-eslint
-            @semantic-release/git
-            @semantic-release/release-notes-generator
             @semantic-release/commit-analyzer
+            @semantic-release/release-notes-generator
+            @semantic-release/git
+            @semantic-release/github
           branches: |
             [
               'main',
@@ -52,8 +53,18 @@ jobs:
       - name: Build project
         run: yarn build
 
+      - name: Change NPM Version
+        env:
+          VERSION: ${{ needs.semantic_release.outputs.new_release_version }}
+        run: npm version ${VERSION} --allow-same-version=true
+
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v4
+        commit-message: Bump version [skip ci]
+
       - name: Upload to NPM
         uses: JS-DevTools/npm-publish@v1
         with:
           token: ${{ secrets.NPM_TOKEN }}
           tag: ${{ needs.semantic_release.outputs.new_release_version }}
+          check-version: false
