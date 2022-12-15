@@ -22,13 +22,15 @@
     "@oclif/plugin-help": "^5.1.20",
     "@oclif/plugin-not-found": "^2.3.9",
     "@oclif/plugin-plugins": "^2.1.8",
-    "detect-indent": "6.1.0",
-    "chalk": "4.1.2"
+    "chalk": "4.1.2",
+    "detect-indent": "6.1.0"
   },
   "devDependencies": {
     "@commitlint/cli": "^17.3.0",
     "@commitlint/config-conventional": "^17.3.0",
     "@oclif/test": "^2.2.15",
+    "@semantic-release/git": "^10.0.1",
+    "@semantic-release/npm": "^9.0.1",
     "@types/chai": "^4",
     "@types/mocha": "^9.0.0",
     "@types/node": "^16.18.7",
