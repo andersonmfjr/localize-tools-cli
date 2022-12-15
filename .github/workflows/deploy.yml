@@ -70,5 +70,5 @@ jobs:
         uses: JS-DevTools/npm-publish@v1
         with:
           token: ${{ secrets.NPM_TOKEN }}
-          tag: ${{ needs.semantic_release.outputs.new_release_version }}
+          tag: latest
           check-version: true
