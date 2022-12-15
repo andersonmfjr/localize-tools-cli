@@ -27,6 +27,13 @@ export function fileIsValid(path: string): IsValidModel {
     if (!hasAllKeys) {
       errors.push(`${path} is invalid. Locale or translations are missing.`);
     }
+
+    if (keys.includes("translations")) {
+      const translations = JSON.parse(file).translations;
+      if (typeof translations !== "object") {
+        errors.push(`Translations of ${path} is not an object.`);
+      }
+    }
   } else {
     errors.push(`${path} not exists.`);
   }
