@@ -1,7 +1,7 @@
 import detectIndent from "detect-indent";
 import * as fs from "node:fs";
 import path from "node:path";
-import { cwd } from "node:process";
+import { cwd, exit } from "node:process";
 import { chalkError } from "./chalk-themes";
 
 export function orderTranslation(source: string, translation: string) {
@@ -37,5 +37,6 @@ export function orderTranslation(source: string, translation: string) {
     fs.writeFileSync(translationPath, parsedData + endOfFile);
   } catch (err) {
     console.log(chalkError("\n" + err + "\n"));
+    exit();
   }
 }
