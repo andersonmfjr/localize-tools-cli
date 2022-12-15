@@ -4,7 +4,7 @@ import path from "node:path";
 import { cwd } from "node:process";
 import { chalkError } from "./chalk-themes";
 
-export function orderTranslation(source: string, translation: string) {
+export function removeUnusedTranslation(source: string, translation: string) {
   try {
     const dir = cwd();
     const sourcePath = path.join(dir, source);
@@ -18,14 +18,18 @@ export function orderTranslation(source: string, translation: string) {
     const localeRawData = fs.readFileSync(translationPath, "utf8");
     const localeJson = JSON.parse(localeRawData);
     const localeTranslations = localeJson.translations;
+    const localeTranslationsKeys = Object.keys(localeTranslations);
+
+    const unusedIds = localeTranslationsKeys.filter(
+      (key) => !sourceTranslationsKeys.includes(key)
+    );
 
     const newTranslations: Record<string, string> = {};
-
-    sourceTranslationsKeys.forEach((key) => {
-      if (localeTranslations[key]) {
-        newTranslations[key] = localeTranslations[key];
+    for (const [key, value] of Object.entries(localeTranslations)) {
+      if (!unusedIds.includes(key)) {
+        newTranslations[key] = value as string;
       }
-    });
+    }
 
     localeJson.translations = newTranslations;
 
@@ -35,7 +39,7 @@ export function orderTranslation(source: string, translation: string) {
     const endOfFile = endOfFileMatches ? endOfFileMatches : "";
 
     fs.writeFileSync(translationPath, parsedData + endOfFile);
-  } catch (err) {
-    console.log(chalkError("\n" + err + "\n"));
+  } catch (error) {
+    console.log(chalkError(error));
   }
 }

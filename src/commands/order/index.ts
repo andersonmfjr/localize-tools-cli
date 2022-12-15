@@ -1,7 +1,7 @@
 import { chalkSuccess } from "../../helpers/chalk-themes";
 import { filesAreValid } from "../../helpers/files-are-valid";
 import { getGlobalConfig } from "../../helpers/get-global-config";
-import { orderTranslations } from "../../helpers/order-translation";
+import { orderTranslation } from "../../helpers/order-translation";
 import { BaseCommand } from "../base";
 
 export default class OrderCommand extends BaseCommand {
@@ -20,7 +20,7 @@ export default class OrderCommand extends BaseCommand {
 
     if (filesAreValid(config)) {
       config.translations.forEach((translation) => {
-        orderTranslations(config.source, translation);
+        orderTranslation(config.source, translation);
       });
 
       console.log(chalkSuccess("\nTranslations ordered successfully.\n"));
