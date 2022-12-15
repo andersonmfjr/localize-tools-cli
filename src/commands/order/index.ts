@@ -1,5 +1,6 @@
 import { filesAreValid } from "../../helpers/files-are-valid";
 import { getGlobalConfig } from "../../helpers/get-global-config";
+import { orderTranslations } from "../../helpers/order-translation";
 import { BaseCommand } from "../base";
 
 export default class OrderCommand extends BaseCommand {
@@ -16,7 +17,9 @@ export default class OrderCommand extends BaseCommand {
     const config = getGlobalConfig(flags);
 
     if (filesAreValid(config)) {
-      // make logic
+      config.translations.forEach((translation) => {
+        orderTranslations(config.source, translation);
+      });
     }
   }
 }

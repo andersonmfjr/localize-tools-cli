@@ -34,7 +34,9 @@ export function getGlobalConfig(flags: Record<string, any>): {
     exit();
   } else {
     console.log(
-      chalkError("Please pass flags. For more information view help section")
+      chalkError(
+        "Please pass flags to config. For more information view help section"
+      )
     );
     exit();
   }
