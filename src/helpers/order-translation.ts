@@ -1,21 +1,27 @@
 import detectIndent from "detect-indent";
 import * as fs from "node:fs";
+import path from "node:path";
+import { cwd } from "node:process";
 import { chalkError } from "./chalk-themes";
 
 export function orderTranslations(source: string, translation: string) {
   try {
-    const defaultLocaleRawData = fs.readFileSync(source, "utf8");
-    const defaultLocaleJson = JSON.parse(defaultLocaleRawData);
-    const defaultTranslations = defaultLocaleJson.translations;
-    const defaultTranslationsKeys = Object.keys(defaultTranslations);
+    const dir = cwd();
+    const sourcePath = path.join(dir, source);
+    const translationPath = path.join(translation, source);
 
-    const localeRawData = fs.readFileSync(translation, "utf8");
+    const sourceLocaleRawData = fs.readFileSync(sourcePath, "utf8");
+    const sourceLocaleJson = JSON.parse(sourceLocaleRawData);
+    const sourceTranslations = sourceLocaleJson.translations;
+    const sourceTranslationsKeys = Object.keys(sourceTranslations);
+
+    const localeRawData = fs.readFileSync(translationPath, "utf8");
     const localeJson = JSON.parse(localeRawData);
     const localeTranslations = localeJson.translations;
 
     const newTranslations: Record<string, string> = {};
 
-    defaultTranslationsKeys.forEach((key) => {
+    sourceTranslationsKeys.forEach((key) => {
       if (localeTranslations[key]) {
         newTranslations[key] = localeTranslations[key];
       }
@@ -28,7 +34,7 @@ export function orderTranslations(source: string, translation: string) {
     const endOfFileMatches = localeRawData.match(/\r?\n$/)?.[0];
     const endOfFile = endOfFileMatches ? endOfFileMatches : "";
 
-    fs.writeFileSync(translation, parsedData + endOfFile);
+    fs.writeFileSync(translationPath, parsedData + endOfFile);
   } catch (err) {
     console.log(chalkError("\n" + err + "\n"));
   }

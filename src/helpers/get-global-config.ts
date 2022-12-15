@@ -1,5 +1,6 @@
 import * as fs from "node:fs";
-import { exit } from "node:process";
+import path from "node:path";
+import { exit, cwd } from "node:process";
 import { chalkError } from "./chalk-themes";
 import { configIsValid as configIsValidHelper } from "./config-is-valid";
 
@@ -18,8 +19,9 @@ export function getGlobalConfig(flags: Record<string, any>): {
     );
 
     if (configIsValid) {
+      const configPath = path.join(cwd(), flags.config);
       const config = flags.config
-        ? JSON.parse(fs.readFileSync(flags.config, "utf8"))
+        ? JSON.parse(fs.readFileSync(configPath, "utf8"))
         : {
             source: flags.source,
             translations: flags.translations?.split(","),

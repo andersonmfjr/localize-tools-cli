@@ -1,23 +1,27 @@
 import * as fs from "node:fs";
+import path from "node:path";
+import { cwd } from "node:process";
 import { IsValidModel } from "../models/is-valid.model";
 import { chalkError } from "./chalk-themes";
 
-export function fileIsValid(path: string): IsValidModel {
+export function fileIsValid(filePath: string): IsValidModel {
   const errors = [];
 
-  if (!path.endsWith(".json")) {
+  if (!filePath.endsWith(".json")) {
     errors.push(`${path} is not a json.`);
   }
 
-  const exists = fs.existsSync(path);
+  const configPath = path.join(cwd(), filePath);
+
+  const exists = fs.existsSync(configPath);
 
   if (exists) {
-    const file = fs.readFileSync(path, "utf8");
+    const file = fs.readFileSync(configPath, "utf8");
     let keys: string[] = [];
     try {
       keys = Object.keys(JSON.parse(file));
     } catch {
-      errors.push(`Cannot parse translations of ${path}.`);
+      errors.push(`Cannot parse translations of ${configPath}.`);
     }
 
     const hasAllKeys = ["locale", "translations"].every((key) =>
@@ -25,17 +29,19 @@ export function fileIsValid(path: string): IsValidModel {
     );
 
     if (!hasAllKeys) {
-      errors.push(`${path} is invalid. Locale or translations are missing.`);
+      errors.push(
+        `${configPath} is invalid. Locale or translations are missing.`
+      );
     }
 
     if (keys.includes("translations")) {
       const translations = JSON.parse(file).translations;
       if (typeof translations !== "object") {
-        errors.push(`Translations of ${path} is not an object.`);
+        errors.push(`Translations of ${configPath} is not an object.`);
       }
     }
   } else {
-    errors.push(`${path} not exists.`);
+    errors.push(`${configPath} not exists.`);
   }
 
   errors.forEach((error) => {
