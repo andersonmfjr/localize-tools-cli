@@ -60,7 +60,7 @@ jobs:
 
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v4
-        commit-message: Bump version [skip ci]
+        commit-message: "Bump version [skip ci]"
 
       - name: Upload to NPM
         uses: JS-DevTools/npm-publish@v1
