@@ -9,8 +9,8 @@ export default class OrderCommand extends BaseCommand {
 
   static examples = [
     `$ cli order --config=./config.json`,
-    `$ cli order --source=./messages.pt --translations=./messages.pt.json`,
-    `$ cli order --source=./messages.pt --translations=./messages.pt.json,./messages.es.json`,
+    `$ cli order --source=./messages.json --translations=./messages.pt.json`,
+    `$ cli order --source=./messages.json --translations=./messages.pt.json,./messages.es.json`,
   ];
 
   async run(): Promise<void> {
