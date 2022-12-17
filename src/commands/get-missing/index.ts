@@ -1,3 +1,5 @@
+import { Flags } from "@oclif/core";
+import { addTranslation } from "../../helpers/add-translation";
 import {
   chalkErrorText,
   chalkInfo,
@@ -7,6 +9,7 @@ import {
 import { filesAreValid } from "../../helpers/files-are-valid";
 import { getGlobalConfig } from "../../helpers/get-global-config";
 import { getMissingTranslation } from "../../helpers/get-missing-translation";
+import { orderTranslation } from "../../helpers/order-translation";
 import { MissingTranslationModel } from "../../models/missing-translation";
 import { BaseCommand } from "../base";
 
@@ -18,7 +21,22 @@ export default class GetMissingCommand extends BaseCommand {
     `$ cli get-missing --config=./config.json`,
     `$ cli get-missing --source=./messages.json --translations=./messages.pt.json`,
     `$ cli get-missing --source=./messages.json --translations=./messages.pt.json,./messages.es.json`,
+    `$ cli get-missing --config=./config.json --save`,
+    `$ cli get-missing --config=./config.json --save --order`,
   ];
+
+  static flags = {
+    save: Flags.boolean({
+      char: "s",
+      description:
+        "Saves missing translations in translation files (at end of file)",
+    }),
+    order: Flags.boolean({
+      char: "o",
+      description: "Order saved missing translations in translation files",
+      dependsOn: ["save"],
+    }),
+  };
 
   async run(): Promise<void> {
     const { flags } = await this.parse(GetMissingCommand);
@@ -65,6 +83,30 @@ export default class GetMissingCommand extends BaseCommand {
           });
         }
       });
+
+      if (flags.save) {
+        missingTranslations.forEach((missingTranslation) => {
+          if (missingTranslation.missingTranslations.length > 0) {
+            const messages: Record<string, string> = {};
+            missingTranslation.missingTranslations.forEach(({ key, value }) => {
+              messages[key] = value;
+            });
+            addTranslation(missingTranslation.path, messages);
+
+            if (flags.order) {
+              orderTranslation(config.source, missingTranslation.path);
+            }
+          }
+        });
+
+        console.log(
+          chalkSuccess(
+            `\nMissing translations have been saved ${
+              flags.order ? "and ordered" : ""
+            } in the translations files\n`
+          )
+        );
+      }
     }
   }
 }
