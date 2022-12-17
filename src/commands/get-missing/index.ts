@@ -66,7 +66,7 @@ export default class GetMissingCommand extends BaseCommand {
         if (missingTranslation.missingTranslations.length > 0) {
           console.log(
             chalkInfo(
-              `\n${index === 0 ? "\n" : ""}${
+              `\n${index !== 0 ? "\n" : ""}${
                 index + 1
               }. Missing translations for ${missingTranslation.path}`
             )
