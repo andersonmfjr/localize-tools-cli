@@ -1,14 +1,14 @@
 import detectIndent from "detect-indent";
 import * as fs from "node:fs";
 import path from "node:path";
-import { cwd } from "node:process";
+import { cwd, exit } from "node:process";
 import { chalkError } from "./chalk-themes";
 
 export function orderTranslation(source: string, translation: string) {
   try {
     const dir = cwd();
     const sourcePath = path.join(dir, source);
-    const translationPath = path.join(translation, source);
+    const translationPath = path.join(dir, translation);
 
     const sourceLocaleRawData = fs.readFileSync(sourcePath, "utf8");
     const sourceLocaleJson = JSON.parse(sourceLocaleRawData);
@@ -35,7 +35,8 @@ export function orderTranslation(source: string, translation: string) {
     const endOfFile = endOfFileMatches ? endOfFileMatches : "";
 
     fs.writeFileSync(translationPath, parsedData + endOfFile);
-  } catch (err) {
-    console.log(chalkError("\n" + err + "\n"));
+  } catch (error) {
+    console.log(chalkError("\n" + error + "\n"));
+    exit();
   }
 }

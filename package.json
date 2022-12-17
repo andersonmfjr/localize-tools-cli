@@ -1,6 +1,6 @@
 {
   "name": "localize-tools-cli",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "CLI to provide better DX when working with @angular/localize",
   "author": "Anderson Feitosa @andersonmfjr",
   "bin": {
@@ -62,6 +62,12 @@
     "topics": {
       "order": {
         "description": "Order translations of translations files based on source order"
+      },
+      "remove-unused": {
+        "description": "Remove unused translations of translations files based on source translations"
+      },
+      "get-missing": {
+        "description": "Show missing translations of translations files based on source translations"
       }
     }
   },
