@@ -35,8 +35,8 @@ export function orderTranslation(source: string, translation: string) {
     const endOfFile = endOfFileMatches ? endOfFileMatches : "";
 
     fs.writeFileSync(translationPath, parsedData + endOfFile);
-  } catch (err) {
-    console.log(chalkError("\n" + err + "\n"));
+  } catch (error) {
+    console.log(chalkError("\n" + error + "\n"));
     exit();
   }
 }

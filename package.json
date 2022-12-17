@@ -62,6 +62,12 @@
     "topics": {
       "order": {
         "description": "Order translations of translations files based on source order"
+      },
+      "remove-unused": {
+        "description": "Remove unused translations of translations files based on source translations"
+      },
+      "get-missing": {
+        "description": "Show missing translations of translations files based on source translations"
       }
     }
   },

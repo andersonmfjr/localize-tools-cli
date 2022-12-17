@@ -1,4 +1,4 @@
-export type GlobalConfig = {
+export type GlobalConfigModel = {
   source: string;
   translations: string[];
 };
