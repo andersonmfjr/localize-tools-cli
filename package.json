@@ -21,7 +21,7 @@
     "@oclif/plugin-commands": "^2.2.1",
     "@oclif/plugin-help": "^5.1.20",
     "@oclif/plugin-not-found": "^2.3.9",
-    "@oclif/plugin-plugins": "^2.1.8",
+    "@oclif/plugin-plugins": "^2.1.9",
     "chalk": "4.1.2",
     "detect-indent": "6.1.0"
   },
