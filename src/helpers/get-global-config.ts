@@ -1,13 +1,11 @@
 import * as fs from "node:fs";
 import path from "node:path";
 import { exit, cwd } from "node:process";
+import { GlobalConfigModel } from "../models/global-config";
 import { chalkError } from "./chalk-themes";
 import { configIsValid as configIsValidHelper } from "./config-is-valid";
 
-export function getGlobalConfig(flags: Record<string, any>): {
-  source: string;
-  translations: string[];
-} {
+export function getGlobalConfig(flags: Record<string, any>): GlobalConfigModel {
   const hasConfig = flags.config || (flags.source && flags.translations);
 
   if (hasConfig) {
