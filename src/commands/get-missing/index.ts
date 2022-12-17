@@ -21,20 +21,21 @@ export default class GetMissingCommand extends BaseCommand {
     `$ cli get-missing --config=./config.json`,
     `$ cli get-missing --source=./messages.json --translations=./messages.pt.json`,
     `$ cli get-missing --source=./messages.json --translations=./messages.pt.json,./messages.es.json`,
-    `$ cli get-missing --config=./config.json --save`,
-    `$ cli get-missing --config=./config.json --save --order`,
+    `$ cli get-missing --config=./config.json --add`,
+    `$ cli get-missing --config=./config.json --add --order`,
   ];
 
   static flags = {
-    save: Flags.boolean({
-      char: "s",
+    add: Flags.boolean({
+      char: "a",
       description:
-        "Saves missing translations in translation files (at end of file)",
+        "Adds missing translations in translation files (at end of file)",
     }),
     order: Flags.boolean({
       char: "o",
-      description: "Order saved missing translations in translation files",
-      dependsOn: ["save"],
+      description:
+        "Order added missing translations in translation files. Should be used with --add flag.",
+      dependsOn: ["add"],
     }),
   };
 
@@ -84,7 +85,7 @@ export default class GetMissingCommand extends BaseCommand {
         }
       });
 
-      if (flags.save) {
+      if (flags.add) {
         missingTranslations.forEach((missingTranslation) => {
           if (missingTranslation.missingTranslations.length > 0) {
             const messages: Record<string, string> = {};
@@ -101,7 +102,7 @@ export default class GetMissingCommand extends BaseCommand {
 
         console.log(
           chalkSuccess(
-            `\nMissing translations have been saved ${
+            `\nMissing translations have been added ${
               flags.order ? "and ordered" : ""
             } in the translations files\n`
           )
