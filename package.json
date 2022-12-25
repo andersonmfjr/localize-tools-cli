@@ -85,7 +85,11 @@
   },
   "bugs": "https://github.com/andersonmfjr/localize-tools-cli/issues",
   "keywords": [
-    "oclif"
+    "@angular/localize",
+    "i18n",
+    "angular",
+    "dx",
+    "translation"
   ],
   "types": "dist/index.d.ts"
 }
