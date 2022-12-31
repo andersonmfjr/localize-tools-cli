@@ -1,6 +1,6 @@
 {
   "name": "localize-tools-cli",
-  "version": "1.1.4",
+  "version": "1.1.6",
   "description": "CLI to provide better DX when working with @angular/localize",
   "author": "Anderson Feitosa @andersonmfjr",
   "bin": {
